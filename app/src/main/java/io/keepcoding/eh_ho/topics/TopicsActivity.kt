@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import io.keepcoding.eh_ho.databinding.ActivityTopicsBinding
 import io.keepcoding.eh_ho.di.DIProvider
 
 class TopicsActivity : AppCompatActivity() {
 
-    private val binding: ActivityTopicsBinding by lazy { ActivityTopicsBinding.inflate(layoutInflater) }
+    private val binding: ActivityTopicsBinding by lazy {
+        ActivityTopicsBinding.inflate(
+            layoutInflater
+        )
+    }
     private val topicsAdapter = TopicsAdapter()
     private val vm: TopicsViewModel by viewModels { DIProvider.topicsViewModelProviderFactory }
 
@@ -27,9 +30,16 @@ class TopicsActivity : AppCompatActivity() {
         vm.state.observe(this) {
             when (it) {
                 is TopicsViewModel.State.LoadingTopics -> renderLoading(it)
-                is TopicsViewModel.State.TopicsReceived -> topicsAdapter.submitList(it.topics)
+                is TopicsViewModel.State.TopicsReceived -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    topicsAdapter.submitList(it.topics)
+                }
                 is TopicsViewModel.State.NoTopics -> renderEmptyState()
             }
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            vm.loadTopics()
         }
     }
 
@@ -43,7 +53,11 @@ class TopicsActivity : AppCompatActivity() {
     }
 
     private fun renderLoading(loadingState: TopicsViewModel.State.LoadingTopics) {
-        (loadingState as? TopicsViewModel.State.LoadingTopics.LoadingWithTopics)?.let { topicsAdapter.submitList(it.topics) }
+        (loadingState as? TopicsViewModel.State.LoadingTopics.LoadingWithTopics)?.let {
+            topicsAdapter.submitList(
+                it.topics
+            )
+        }
     }
 
     companion object {
