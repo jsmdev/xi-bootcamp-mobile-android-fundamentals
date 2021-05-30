@@ -74,6 +74,8 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun signIn() {
+        _state.postValue(State.SigningIn)
+
         signInData.value?.takeIf { it.isValid() }?.let {
             repository.signIn(it.userName, it.password) { login ->
                 when (login) {
@@ -82,6 +84,7 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
                     }
 
                     is LogIn.Error -> {
+                        _state.postValue(State.SignIn)
                         _action.postValue(Action.ShowError(login.error))
                     }
                 }
@@ -90,6 +93,8 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun signUp() {
+        _state.postValue(State.SigningUp)
+
         signUpData.value?.takeIf { it.isValid() }?.let {
             repository.signup(it.userName, it.email, it.password) { signup ->
                 when (signup) {
@@ -98,6 +103,7 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
                     }
 
                     is LogIn.Error -> {
+                        _state.postValue(State.SignUp)
                         _action.postValue(Action.ShowError(signup.error))
                     }
                 }
