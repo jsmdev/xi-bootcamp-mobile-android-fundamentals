@@ -58,6 +58,9 @@ class SignInFragment : Fragment() {
                     }
                 }
             }
+
+            inputUsername.setText("javi@dekalabs.com")
+            inputPassword.setText("Dekalabs2021!")
         }
         return binding.root
     }

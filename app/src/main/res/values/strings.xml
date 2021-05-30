@@ -13,4 +13,12 @@
     <string name="error_invalid_email">Email is not valid</string>
     <string name="error_invalid_username">Username is not valid</string>
     <string name="error_invalid_password">Password is not valid</string>
+
+    <string name="title_placeholder">Title: %s</string>
+    <string name="last_user_placeholder">Last user: %s</string>
+    <string name="posts_placeholder">Posts: %d</string>
+    <string name="replies_placeholder">Replies: %d</string>
+    <string name="likes_placeholder">Likes: %d</string>
+    <string name="pinned_placeholder">Pinned: %s</string>
+    <string name="bumped_placeholder">Bumped: %s</string>
 </resources>

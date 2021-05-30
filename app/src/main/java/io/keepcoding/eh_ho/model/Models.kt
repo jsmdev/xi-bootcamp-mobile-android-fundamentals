@@ -8,4 +8,10 @@ sealed class LogIn {
 data class Topic(
     val id: Int,
     val title: String,
+    val lastPosterUsername: String,
+    val postsCount: Int,
+    val replyCount: Int,
+    val likeCount: Int,
+    val pinned: Boolean,
+    val bumped: Boolean
 )

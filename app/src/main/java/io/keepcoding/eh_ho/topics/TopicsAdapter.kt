@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.databinding.ViewTopicBinding
 import io.keepcoding.eh_ho.extensions.inflater
 import io.keepcoding.eh_ho.model.Topic
@@ -34,7 +35,17 @@ class TopicsAdapter(diffUtilItemCallback: DiffUtil.ItemCallback<Topic> = DIFF) :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(topic: Topic) {
-            binding.title.text = topic.title
+            with(binding) {
+                val ctx = root.context
+                title.text = ctx.getString(R.string.title_placeholder, topic.title)
+                lastUser.text =
+                    ctx.getString(R.string.last_user_placeholder, topic.lastPosterUsername)
+                posts.text = ctx.getString(R.string.posts_placeholder, topic.postsCount)
+                replies.text = ctx.getString(R.string.replies_placeholder, topic.replyCount)
+                likes.text = ctx.getString(R.string.likes_placeholder, topic.likeCount)
+                pinned.text = ctx.getString(R.string.pinned_placeholder, topic.pinned.toString())
+                bumped.text = ctx.getString(R.string.bumped_placeholder, topic.bumped.toString())
+            }
         }
     }
 }

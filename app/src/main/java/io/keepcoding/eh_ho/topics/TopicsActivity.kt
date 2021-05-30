@@ -3,10 +3,8 @@ package io.keepcoding.eh_ho.topics
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import io.keepcoding.eh_ho.databinding.ActivityTopicsBinding
 import io.keepcoding.eh_ho.di.DIProvider
 
@@ -25,7 +23,7 @@ class TopicsActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.topics.apply {
             adapter = topicsAdapter
-            addItemDecoration(DividerItemDecoration(this@TopicsActivity, LinearLayout.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(this@TopicsActivity, LinearLayout.VERTICAL))
         }
         vm.state.observe(this) {
             when (it) {
