@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import io.keepcoding.eh_ho.R
@@ -74,6 +75,10 @@ class SignUpFragment : Fragment() {
 
                     is LoginViewModel.Action.ShowInvalidPassword -> {
                         showPasswordError(it.show)
+                    }
+
+                    is LoginViewModel.Action.ShowError -> {
+                        Toast.makeText(requireContext(), it.error, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

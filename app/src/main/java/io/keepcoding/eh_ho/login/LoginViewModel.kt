@@ -75,11 +75,15 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
     fun signIn() {
         signInData.value?.takeIf { it.isValid() }?.let {
-            repository.signIn(it.userName, it.password) {
-                if (it is LogIn.Success) {
-                    _state.postValue(State.SignedIn)
-                } else {
-                    //
+            repository.signIn(it.userName, it.password) { login ->
+                when (login) {
+                    is LogIn.Success -> {
+                        _state.postValue(State.SignedIn)
+                    }
+
+                    is LogIn.Error -> {
+                        _action.postValue(Action.ShowError(login.error))
+                    }
                 }
             }
         }
@@ -87,8 +91,16 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
     fun signUp() {
         signUpData.value?.takeIf { it.isValid() }?.let {
-            repository.signup(it.userName, it.email, it.password) {
-                //
+            repository.signup(it.userName, it.email, it.password) { signup ->
+                when (signup) {
+                    is LogIn.Success -> {
+                        _state.postValue(State.SignedUp)
+                    }
+
+                    is LogIn.Error -> {
+                        _action.postValue(Action.ShowError(signup.error))
+                    }
+                }
             }
         }
     }
@@ -106,6 +118,7 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
         class ShowInvalidEmail(val show: Boolean) : Action()
         class ShowInvalidUsername(val show: Boolean) : Action()
         class ShowInvalidPassword(val show: Boolean) : Action()
+        class ShowError(val error: String) : Action()
     }
 
     data class SignInData(
@@ -130,19 +143,19 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
     private fun isUsernameValid(username: String): Boolean {
         val isValid = Validator.isValidUsername(username)
-        _action.value = Action.ShowInvalidUsername(!isValid && username.isNotBlank())
+        _action.postValue(Action.ShowInvalidUsername(!isValid && username.isNotBlank()))
         return isValid
     }
 
     private fun isEmailValid(email: String): Boolean {
         val isValid = Validator.isValidEmail(email)
-        _action.value = Action.ShowInvalidEmail(!isValid && email.isNotBlank())
+        _action.postValue(Action.ShowInvalidEmail(!isValid && email.isNotBlank()))
         return isValid
     }
 
     private fun isPasswordValid(password: String): Boolean {
         val isValid = Validator.isValidPassword(password)
-        _action.value = Action.ShowInvalidPassword(!isValid && password.isNotBlank())
+        _action.postValue(Action.ShowInvalidPassword(!isValid && password.isNotBlank()))
         return isValid
     }
 
