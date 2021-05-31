@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import io.keepcoding.eh_ho.databinding.ActivityTopicsBinding
 import io.keepcoding.eh_ho.di.DIProvider
+import io.keepcoding.eh_ho.post.CreatePostActivity
 
 class TopicsActivity : AppCompatActivity() {
 
@@ -39,6 +40,10 @@ class TopicsActivity : AppCompatActivity() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             vm.loadTopics()
         }
+
+        topicsAdapter.listener = TopicsAdapter.Listener {
+            navigateToCreatePost(it.id)
+        }
     }
 
     override fun onResume() {
@@ -56,6 +61,10 @@ class TopicsActivity : AppCompatActivity() {
                 it.topics
             )
         }
+    }
+
+    private fun navigateToCreatePost(topicId: Int) {
+        startActivity(CreatePostActivity.createIntent(this, topicId))
     }
 
     companion object {

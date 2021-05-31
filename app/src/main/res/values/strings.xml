@@ -13,6 +13,7 @@
     <string name="error_invalid_email">Email is not valid</string>
     <string name="error_invalid_username">Username is not valid</string>
     <string name="error_invalid_password">Password is not valid</string>
+    <string name="error_field_empty">This field is required</string>
 
     <string name="title_placeholder">Title: %s</string>
     <string name="last_user_placeholder">Last user: %s</string>
@@ -21,4 +22,8 @@
     <string name="likes_placeholder">Likes: %d</string>
     <string name="pinned_placeholder">Pinned: %s</string>
     <string name="bumped_placeholder">Bumped: %s</string>
+
+    <string name="hint_body">Body</string>
+    <string name="create_post">Create post</string>
+    <string name="post_created">Post created!</string>
 </resources>

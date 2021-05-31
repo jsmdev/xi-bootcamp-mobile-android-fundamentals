@@ -12,6 +12,8 @@ import io.keepcoding.eh_ho.model.Topic
 class TopicsAdapter(diffUtilItemCallback: DiffUtil.ItemCallback<Topic> = DIFF) :
     ListAdapter<Topic, TopicsAdapter.TopicViewHolder>(diffUtilItemCallback) {
 
+    var listener: Listener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder =
         TopicViewHolder(parent)
 
@@ -20,12 +22,15 @@ class TopicsAdapter(diffUtilItemCallback: DiffUtil.ItemCallback<Topic> = DIFF) :
 
     companion object {
         val DIFF = object : DiffUtil.ItemCallback<Topic>() {
-            override fun areItemsTheSame(oldItem: Topic, newItem: Topic): Boolean = oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: Topic, newItem: Topic): Boolean = oldItem == newItem
+            override fun areItemsTheSame(oldItem: Topic, newItem: Topic): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Topic, newItem: Topic): Boolean =
+                oldItem == newItem
         }
     }
 
-    class TopicViewHolder(
+    inner class TopicViewHolder(
         parent: ViewGroup,
         private val binding: ViewTopicBinding = ViewTopicBinding.inflate(
             parent.inflater,
@@ -45,7 +50,15 @@ class TopicsAdapter(diffUtilItemCallback: DiffUtil.ItemCallback<Topic> = DIFF) :
                 likes.text = ctx.getString(R.string.likes_placeholder, topic.likeCount)
                 pinned.text = ctx.getString(R.string.pinned_placeholder, topic.pinned.toString())
                 bumped.text = ctx.getString(R.string.bumped_placeholder, topic.bumped.toString())
+
+                root.setOnClickListener {
+                    listener?.onItemClick(topic)
+                }
             }
         }
+    }
+
+    fun interface Listener {
+        fun onItemClick(topic: Topic)
     }
 }

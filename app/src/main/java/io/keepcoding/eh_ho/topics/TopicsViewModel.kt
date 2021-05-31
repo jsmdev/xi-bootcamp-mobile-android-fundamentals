@@ -52,6 +52,5 @@ class TopicsViewModel(private val repository: Repository) : ViewModel() {
             TopicsViewModel::class.java -> TopicsViewModel(repository) as T
             else -> throw IllegalArgumentException("LoginViewModelFactory can only create instances of the LoginViewModel")
         }
-
     }
 }

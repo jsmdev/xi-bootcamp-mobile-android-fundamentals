@@ -33,6 +33,13 @@ fun Response.toTopicsModel(): Result<List<Topic>> = when (this.isSuccessful) {
 
 fun IOException.toTopicsModel(): Result<List<Topic>> = Result.failure(this)
 
+fun Response.toCreatePostModel(): Result<Unit> = when (this.isSuccessful) {
+    true -> Result.success(Unit)
+    false -> Result.failure(IOException(this.body?.string() ?: "Some Error parsing response"))
+}
+
+fun IOException.toCreatePostModel(): Result<Unit> = Result.failure(this)
+
 fun parseTopics(json: String?): List<Topic> = json?.let {
     val topicsJsonArray: JSONArray =
         JSONObject(it).getJSONObject("topic_list").getJSONArray("topics")
